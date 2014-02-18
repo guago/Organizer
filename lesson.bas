@@ -9,11 +9,14 @@ Sub Class_Globals
 	Dim Сweekno As Byte
 	Dim Сweekno_s As String
 	
-	Dim Сno As Byte
+	Dim Сno As String
 	Dim Сsubject As String
+	
 	Dim Ctype_ As String
+	Dim Ctype_int As Byte
+	
 	Dim Сteacher As String
-	Dim Сroom As Int
+	Dim Сroom As String
 	Dim Сtimestart As String
 	Dim Сtimeend As String
 	Private spinner_weekday As Spinner
@@ -21,7 +24,7 @@ Sub Class_Globals
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
-Public Sub Initialize (weekday As Byte,weekno As Byte,no As Byte,subject As String,type_ As String,teacher As String,room As Int,timestart As String,timeend As String)
+Public Sub Initialize (weekday As Byte,weekno As Byte,no As String,subject As String,type_ As String,teacher As String,room As String,timestart As String,timeend As String)
 	
 	Сweekday=weekday
 	Сweekno=weekno
