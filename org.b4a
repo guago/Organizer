@@ -9,9 +9,10 @@ Package=b4a.organizer
 DoNotOverwriteManifest=False
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="14"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
 UserTypesHint=lesson
-NumberOfFiles=2
+NumberOfFiles=3
 File1=LessonEdit.bal
 File2=main.bal
+File3=settings.bal
 NumberOfLibraries=2
 Library1=core
 Library2=dialogs
@@ -33,24 +34,19 @@ Library2=dialogs
 Sub Process_Globals
 	'These global variables will be declared once when the application starts.
 	'These variables can be accessed from all modules.
-	Dim i As Int
 End Sub
 
 Sub Globals
 	'These global variables will be redeclared each time the activity is created.
 	'These variables can only be accessed from this module.
 	Dim les(256) As lesson
-	Dim c As Int
-	Private Button1 As Button
-	Private ListView1 As ListView
-	Private Label1 As Label
+	Private btn_set As Button
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
-	Activity.LoadLayout("main")
-	If FirstTime Then i=0
+	Activity.LoadLayout("settings")
 End Sub
 
 Sub Activity_Resume
@@ -61,14 +57,6 @@ Sub Activity_Pause (UserClosed As Boolean)
 
 End Sub
 
-Sub Button1_Click
-	StartActivity("LessonEdit")
-	Label1.Text=i
-	ListView1.AddTwoLines(les(i).Сsubject & ", " & les(i).Сroom, "This is the second line.")
-End Sub
-Sub ListView1_ItemClick (Position As Int, Value As Object)
-	
-End Sub
-Sub ListView1_ItemLongClick (Position As Int, Value As Object)
-	
+Sub btn_set_Click
+	StartActivity("settings")
 End Sub

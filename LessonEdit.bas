@@ -9,7 +9,6 @@ Version=3.2
 Sub Process_Globals
 	'These global variables will be declared once when the application starts.
 	'These variables can be accessed from all modules.
-	Dim i As Int
 End Sub
 
 Sub Globals
@@ -136,4 +135,7 @@ Sub btn_save_Click
 	les.Сroom=edittext_room.Text
 	les.Сtimestart=tstart
 	les.Сtimeend=tend
+	'File.WriteString("/storage/emulated/0","test.txt",edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend)
+	'Main.s=edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend
+	Activity.Finish()
 End Sub
