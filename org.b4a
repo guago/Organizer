@@ -45,6 +45,8 @@ Sub Globals
 	Dim les(256) As lesson
 	Dim week As Short
 	Private btn_set As Button
+	Private Label1 As Label
+	Private Label2 As Label
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -56,7 +58,8 @@ Sub Activity_Create(FirstTime As Boolean)
 End Sub
 
 Sub Activity_Resume
-
+	Label1.Text=Settings.week0
+	Label2.Text=Settings.week1
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
