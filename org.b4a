@@ -47,25 +47,29 @@ Sub Globals
 	Private btn_set As Button
 	Private title_curweek As Label
 	Private Label1 As Label
-	Dim monday As Long
+	Dim monday As String
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("main")
-	DateTime.DateFormat="dd/mm/YYYY"
+	DateTime.DateFormat="dd/MM/yyyy"
 	week=DateTime.GetDayofYear(DateTime.Now)/7
 	curweek_parity=week Mod 2
 	title_curweek.Text=Settings.selected_week_s
 	Settings.selected_week=curweek_parity
 	
-	monday=DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
+	monday="17/02/14"
+	
 	Label1.Text=monday
+	week_change
+	
 End Sub
 
 Sub Activity_Resume
 	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
+	week_change
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
@@ -75,4 +79,15 @@ End Sub
 Sub btn_set_Click
 	StartActivity("settings")
 	
+End Sub
+
+Sub week_change
+	If monday = DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now)))) Then
+		Label1.Text=monday
+		Else
+	If Settings.selected_week_s=0 Then Settings.selected_week_s=1 
+	If Settings.selected_week_s=1 Then Settings.selected_week_s=0 
+	monday = DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
+	End If
+	'DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
 End Sub
