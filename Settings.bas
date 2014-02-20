@@ -44,6 +44,7 @@ Sub Activity_Create(FirstTime As Boolean)
 	
 	spinner_curweek.AddAll(weekno)
 	spinner_curweek.SelectedIndex =selected_week
+	
 End Sub
 
 Sub Activity_Resume
