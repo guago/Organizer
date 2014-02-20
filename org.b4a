@@ -45,8 +45,7 @@ Sub Globals
 	Dim les(256) As lesson
 	Dim week As Short
 	Private btn_set As Button
-	Private Label1 As Label
-	Private Label2 As Label
+	Private title_curweek As Label
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -55,11 +54,12 @@ Sub Activity_Create(FirstTime As Boolean)
 	Activity.LoadLayout("main")
 	week=DateTime.GetDayofYear(DateTime.Now)/7
 	curweek_parity=week Mod 2
+	title_curweek.Text=Settings.selected_week_s
+	Settings.selected_week=curweek_parity
 End Sub
 
 Sub Activity_Resume
-	Label1.Text=Settings.week0
-	Label2.Text=Settings.week1
+	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
@@ -68,4 +68,5 @@ End Sub
 
 Sub btn_set_Click
 	StartActivity("settings")
+	
 End Sub
