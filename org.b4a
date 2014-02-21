@@ -60,16 +60,20 @@ Sub Activity_Create(FirstTime As Boolean)
 	title_curweek.Text=Settings.selected_week_s
 	Settings.selected_week=curweek_parity
 	
-	monday="17/02/14"
+	monday=DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
 	
 	Label1.Text=monday
+	If File.Exists(File.DirDefaultExternal, "Monday.txt") Then 
+	
+	Else 
+	File.WriteString(File.DirDefaultExternal, "Monday.txt", "")
+	End If
 	week_change
 	
 End Sub
 
 Sub Activity_Resume
 	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
-	week_change
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
@@ -82,12 +86,9 @@ Sub btn_set_Click
 End Sub
 
 Sub week_change
-	If monday = DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now)))) Then
-		Label1.Text=monday
-		Else
-	If Settings.selected_week_s=0 Then Settings.selected_week_s=1 
-	If Settings.selected_week_s=1 Then Settings.selected_week_s=0 
-	monday = DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
+	If File.ReadString(File.DirDefaultExternal, "Monday.txt") <> DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now)))) Then
+		File.WriteString(File.DirDefaultExternal, "Monday.txt", monday)
+		If Settings.selected_week=0 Then Settings.selected_week=1
+		If Settings.selected_week=1 Then Settings.selected_week=0
 	End If
-	'DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
 End Sub

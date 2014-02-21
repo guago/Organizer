@@ -53,6 +53,7 @@ Sub Activity_Resume
 	spinner_curweek.Clear()
 	spinner_curweek.Add(week0)
 	spinner_curweek.Add(week1)
+	spinner_curweek.SelectedIndex =selected_week
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
