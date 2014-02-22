@@ -48,12 +48,15 @@ Sub Globals
 	Private title_curweek As Label
 	Private Label1 As Label
 	Dim monday As String
+	Dim week_change_map As Map
+	Dim week_change_map1 As Map
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("main")
+	week_change_map.Initialize
 	DateTime.DateFormat="dd/MM/yyyy"
 	week=DateTime.GetDayofYear(DateTime.Now)/7
 	curweek_parity=week Mod 2
@@ -62,18 +65,24 @@ Sub Activity_Create(FirstTime As Boolean)
 	
 	monday=DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now))))
 	
-	Label1.Text=monday
+	'Label1.Text=monday
 	If File.Exists(File.DirDefaultExternal, "Monday.txt") Then 
 	
 	Else 
-	File.WriteString(File.DirDefaultExternal, "Monday.txt", "")
+	week_change_map.Put("monday",monday)
+	week_change_map.Put("selected_week",Settings.selected_week)
+	File.WriteMap(File.DirDefaultExternal, "Monday.txt", week_change_map)
 	End If
+	week_change_map1=File.ReadMap(File.DirDefaultExternal, "Monday.txt")'!!!!
+	Label1.Text=week_change_map1.Get("monday")
 	week_change
 	
 End Sub
 
 Sub Activity_Resume
 	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
+	Label1.Text=monday
+	week_change
 End Sub
 
 Sub Activity_Pause (UserClosed As Boolean)
@@ -86,9 +95,13 @@ Sub btn_set_Click
 End Sub
 
 Sub week_change
-	If File.ReadString(File.DirDefaultExternal, "Monday.txt") <> DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now)))) Then
-		File.WriteString(File.DirDefaultExternal, "Monday.txt", monday)
+	If week_change_map1.Get("monday") <> DateTime.Date(DateTime.Add(DateTime.Now,0,0,2-(DateTime.GetDayOfWeek(DateTime.Now)))) Then
+		'File.ReadString(File.DirDefaultExternal, "Monday.txt")
+		'File.WriteString(File.DirDefaultExternal, "Monday.txt", monday)
+		week_change_map.Put("monday",monday)
 		If Settings.selected_week=0 Then Settings.selected_week=1
 		If Settings.selected_week=1 Then Settings.selected_week=0
+		week_change_map.Put("selected_week",Settings.selected_week)
+		File.WriteMap(File.DirDefaultExternal, "Monday.txt", week_change_map)
 	End If
 End Sub

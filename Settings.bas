@@ -37,13 +37,14 @@ Sub Activity_Create(FirstTime As Boolean)
 		week1="Вторая неделя"
 		weekno(0)="Первая неделя"
 		weekno(1)="Вторая неделя"
+		spinner_curweek.SelectedIndex =selected_week
 	End If
 	
 	If FirstTime = False Then
 	End If
 	
 	spinner_curweek.AddAll(weekno)
-	spinner_curweek.SelectedIndex =selected_week
+	
 	
 End Sub
 
