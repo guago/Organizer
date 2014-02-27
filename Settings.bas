@@ -46,6 +46,7 @@ Sub Activity_Create(FirstTime As Boolean)
 	spinner_curweek.AddAll(weekno)
 	
 	
+	
 End Sub
 
 Sub Activity_Resume

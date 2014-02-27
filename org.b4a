@@ -15,9 +15,11 @@ NumberOfFiles=3
 File1=LessonEdit.bal
 File2=main.bal
 File3=settings.bal
-NumberOfLibraries=2
+NumberOfLibraries=4
 Library1=core
 Library2=dialogs
+Library3=http
+Library4=httputils2
 @EndOfDesignText@
 #Region  Project Attributes 
 	#ApplicationLabel: Student Organizer
@@ -42,7 +44,7 @@ End Sub
 Sub Globals
 	'These global variables will be redeclared each time the activity is created.
 	'These variables can only be accessed from this module.
-	Dim les(256) As lesson
+	Dim les(6,3,6) As lesson
 	Dim week As Short
 	Private btn_set As Button
 	Private title_curweek As Label

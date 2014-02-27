@@ -24,13 +24,14 @@ Sub Globals
 	Private spinner_weekday As Spinner
 	Private spinner_weekno As Spinner
 	Private spinner_type As Spinner
-	Private edittext_no As EditText
 	Private edittext_subject As EditText
 	Private btn_save As Button
 	Private edittext_teacher As EditText
 	Private edittext_room As EditText
 	Private btn_timestart As Button
 	Private btnl_timeend As Button
+	Dim les_array(6,3,6) As lesson
+	Private spinner_no As Spinner
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -39,9 +40,10 @@ Sub Activity_Create(FirstTime As Boolean)
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("lessonedit")
 	
-	Dim Сweekday_W(7) As String
+	Dim Сweekday_W(6) As String
 	Dim Сweekno_W(3) As String
 	Dim Ctype_W(4) As String
+	Dim Cno_W(6) As String
 	
 	'-----------------------
 	
@@ -51,7 +53,6 @@ Sub Activity_Create(FirstTime As Boolean)
 	Сweekday_W(3)="Четверг"
 	Сweekday_W(4)="Пятница"
 	Сweekday_W(5)="Суббота"
-	Сweekday_W(6)="Воскресенье"
 	
 	spinner_weekday.AddAll(Сweekday_W)
 	
@@ -71,6 +72,17 @@ Sub Activity_Create(FirstTime As Boolean)
 	Ctype_W(3)="Лабораторная"
 	
 	spinner_type.AddAll(Ctype_W)
+	
+	'-----------------------
+	
+	Cno_W(0)="1"
+	Cno_W(1)="2"
+	Cno_W(2)="3"
+	Cno_W(3)="4"
+	Cno_W(4)="5"
+	Cno_W(5)="6"
+	
+	spinner_no.AddAll(Cno_W)
 	
 	'-----------------------
 	hrss=9
@@ -114,28 +126,19 @@ Sub btnl_timeend_Click
 	mnte=СTimeDial.Minute
 End Sub
 
-Sub spinner_weekday_ItemClick (Position As Int, Value As Object)
-	les.Сweekday=Position
-	les.Сweekday_s=Value
-End Sub
-
-Sub spinner_weekno_ItemClick (Position As Int, Value As Object)
-	les.Сweekno=Position
-	les.Сweekno_s=Value
-End Sub
-Sub spinner_type_ItemClick (Position As Int, Value As Object)
-	les.Ctype_=Value
-	les.Ctype_int=Position
-End Sub
-
 Sub btn_save_Click
-	les.Сno=edittext_no.Text
-	les.Сsubject=edittext_subject.Text
-	les.Сteacher=edittext_teacher.Text
-	les.Сroom=edittext_room.Text
-	les.Сtimestart=tstart
-	les.Сtimeend=tend
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сsubject=edittext_subject.Text
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сteacher=edittext_teacher.Text
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сroom=edittext_room.Text
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сtimestart=tstart
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сtimeend=tend
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сweekday_s=spinner_weekday.SelectedItem
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сweekno_s=spinner_weekno.SelectedItem
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сno=spinner_no.SelectedItem
+	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Ctype_=spinner_type.SelectedItem
 	'File.WriteString("/storage/emulated/0","test.txt",edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend)
 	'Main.s=edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend
+	'les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex)
+	
 	Activity.Finish()
 End Sub

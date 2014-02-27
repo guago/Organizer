@@ -19,6 +19,7 @@ Sub Class_Globals
 	Dim Сroom As String
 	Dim Сtimestart As String
 	Dim Сtimeend As String
+	
 	Private spinner_weekday As Spinner
 	Private spinner_weekno As Spinner
 End Sub
