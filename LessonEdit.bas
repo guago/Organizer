@@ -32,10 +32,24 @@ Sub Globals
 	Private btnl_timeend As Button
 	Dim les_array(6,3,6) As lesson
 	Private spinner_no As Spinner
+	Dim lessons_save As Map
+	Dim i As Byte
+	Dim j As Byte
+	Dim k As Byte
+	Dim ijk As String
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
 	les.Initialize(0,0,1,"","-","",0,"9:00","10:35")
+	If FirstTime Then
+		lessons_save.Initialize
+		If File.Exists(File.DirDefaultExternal, "lessons.txt") Then 
+		
+		Else 
+			File.WriteMap(File.DirDefaultExternal, "lessons.txt", lessons_save)
+		End If
+	End If
+	lessons_save=File.ReadMap2(File.DirDefaultExternal, "lessons.txt",lessons_save)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("lessonedit")
@@ -127,18 +141,32 @@ Sub btnl_timeend_Click
 End Sub
 
 Sub btn_save_Click
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сsubject=edittext_subject.Text
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сteacher=edittext_teacher.Text
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сroom=edittext_room.Text
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сtimestart=tstart
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сtimeend=tend
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сweekday_s=spinner_weekday.SelectedItem
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сweekno_s=spinner_weekno.SelectedItem
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Сno=spinner_no.SelectedItem
-	les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex).Ctype_=spinner_type.SelectedItem
+	i=spinner_weekday.SelectedIndex
+	j=spinner_weekno.SelectedIndex
+	k=spinner_no.SelectedIndex
+	les_array(i,j,k).Сsubject=edittext_subject.Text
+	les_array(i,j,k).Сteacher=edittext_teacher.Text
+	les_array(i,j,k).Сroom=edittext_room.Text
+	les_array(i,j,k).Сtimestart=tstart
+	les_array(i,j,k).Сtimeend=tend
+	les_array(i,j,k).Сweekday_s=spinner_weekday.SelectedItem
+	les_array(i,j,k).Сweekno_s=spinner_weekno.SelectedItem
+	les_array(i,j,k).Сno=spinner_no.SelectedItem
+	les_array(i,j,k).Ctype_=spinner_type.SelectedItem
+	ijk=i & j & k
 	'File.WriteString("/storage/emulated/0","test.txt",edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend)
 	'Main.s=edittext_no.Text&" "&edittext_subject.Text&" "&edittext_teacher.Text&" "&edittext_room.Text&" "&tstart&" "&tend
 	'les_array(spinner_weekday.SelectedIndex,spinner_weekno.SelectedIndex,spinner_no.SelectedIndex)
 	
+	lessons_save.Put(ijk&"subject",edittext_subject.Text)
+	lessons_save.Put(ijk&"teacher",edittext_teacher.Text)
+	lessons_save.Put(ijk&"room",edittext_room.Text)
+	lessons_save.Put(ijk&"timestart",tstart)
+	lessons_save.Put(ijk&"timeend",tend)
+	lessons_save.Put(ijk&"weekday_s",spinner_weekday.SelectedItem)
+	lessons_save.Put(ijk&"weekno_s",spinner_weekno.SelectedItem)
+	lessons_save.Put(ijk&"no",spinner_no.SelectedItem)
+	lessons_save.Put(ijk&"type",spinner_type.SelectedItem)
+	File.WriteMap(File.DirDefaultExternal, "lessons.txt", lessons_save)
 	Activity.Finish()
 End Sub

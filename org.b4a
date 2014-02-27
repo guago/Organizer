@@ -3,10 +3,10 @@ IconFile=
 NumberOfModules=3
 Module1=lesson
 ModuleVisible1=1
-Module2=LessonEdit
-ModuleVisible2=1
-Module3=Settings
+Module3=LessonEdit
 ModuleVisible3=1
+Module2=Settings
+ModuleVisible2=1
 Package=b4a.organizer
 DoNotOverwriteManifest=False
 ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="14"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
@@ -48,10 +48,16 @@ Sub Globals
 	Dim week As Short
 	Private btn_set As Button
 	Private title_curweek As Label
-	Private Label1 As Label
 	Dim monday As String
+	Dim lessons_save As Map
 	Dim week_change_map As Map
 	Dim week_change_map1 As Map
+	Dim i As Byte
+	Dim j As Byte
+	Dim k As Byte
+	Dim ijk As String
+	Dim day_of_week As Byte
+	Private lst_main As ListView
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
@@ -59,6 +65,7 @@ Sub Activity_Create(FirstTime As Boolean)
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("main")
 	week_change_map.Initialize
+	lessons_save=File.ReadMap(File.DirDefaultExternal, "lessons.txt")
 	DateTime.DateFormat="dd/MM/yyyy"
 	week=DateTime.GetDayofYear(DateTime.Now)/7
 	curweek_parity=week Mod 2
@@ -71,19 +78,23 @@ Sub Activity_Create(FirstTime As Boolean)
 	If File.Exists(File.DirDefaultExternal, "Monday.txt") Then 
 	
 	Else 
-	week_change_map.Put("monday",monday)
-	week_change_map.Put("selected_week",Settings.selected_week)
-	File.WriteMap(File.DirDefaultExternal, "Monday.txt", week_change_map)
+		week_change_map.Put("monday",monday)
+		week_change_map.Put("selected_week",Settings.selected_week)
+		File.WriteMap(File.DirDefaultExternal, "Monday.txt", week_change_map)
 	End If
 	week_change_map1=File.ReadMap(File.DirDefaultExternal, "Monday.txt")'!!!!
-	Label1.Text=week_change_map1.Get("monday")
 	week_change
+	map_to_arr(lessons_save)
+	day_of_week=DateTime.GetDayOfWeek(DateTime.Now)
+	For i=0 To 5
+		lst_main.AddTwoLines(les(0,0,i).Сno & " - " & les(0,0,i).Сsubject & " (" & les(0,0,i).Сroom & ")",les(0,0,i).Сteacher & " ; " & les(0,0,i).Ctype_)
+		'lst_main.AddTwoLines(les(day_of_week,curweek_parity,i).Сno & "-" & les(day_of_week,curweek_parity,i).Сsubject & "(" & les(day_of_week,curweek_parity,i).Сroom & ")" ,les(day_of_week,curweek_parity,i).Сteacher)
+	Next
 	
 End Sub
 
 Sub Activity_Resume
 	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
-	Label1.Text=monday
 	week_change
 End Sub
 
@@ -92,7 +103,7 @@ Sub Activity_Pause (UserClosed As Boolean)
 End Sub
 
 Sub btn_set_Click
-	StartActivity("settings")
+	StartActivity("LessonEdit")
 	
 End Sub
 
@@ -106,4 +117,23 @@ Sub week_change
 		week_change_map.Put("selected_week",Settings.selected_week)
 		File.WriteMap(File.DirDefaultExternal, "Monday.txt", week_change_map)
 	End If
+End Sub
+
+Sub map_to_arr (m As Map)
+	For i=0 To 5
+		For j=0 To 2
+			For k=0 To 5
+			ijk=i&j&k
+			les(i,j,k).Сsubject=m.Get(ijk&"subject")
+			les(i,j,k).Сteacher=m.Get(ijk&"teacher")
+			les(i,j,k).Сroom=m.Get(ijk&"room")
+			les(i,j,k).Сtimestart=m.Get(ijk&"timestart")
+			les(i,j,k).Сtimeend=m.Get(ijk&"timeend")
+			les(i,j,k).Сweekday_s=m.Get(ijk&"weekday_s")
+			les(i,j,k).Сweekno_s=m.Get(ijk&"weekno_s")
+			les(i,j,k).Сno=m.Get(ijk&"no")
+			les(i,j,k).Ctype_=m.Get(ijk&"type")
+			Next
+		Next
+	Next
 End Sub
