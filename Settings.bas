@@ -25,19 +25,28 @@ Sub Globals
 	Private edittext_firstweek As EditText
 	Private edittext_secondweek As EditText
 	Private spinner_curweek As Spinner
+	Dim week_names As Map
 End Sub
 
 Sub Activity_Create(FirstTime As Boolean)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
 	Activity.LoadLayout("settings")
-	
+	week_names.Initialize
+	week_names=File.ReadMap(File.DirDefaultExternal, "week_names.txt")
 	If FirstTime Then 
-		week0="Первая неделя"
-		week1="Вторая неделя"
-		weekno(0)="Первая неделя"
-		weekno(1)="Вторая неделя"
+		selected_week=week_names.Get("curweek")
+		week0=week_names.Get("week0")
+		week1=week_names.Get("week1")
+		weekno(0)=week_names.Get("week0")
+		weekno(1)=week_names.Get("week1")
 		spinner_curweek.SelectedIndex =selected_week
+		
+		If File.Exists(File.DirDefaultExternal, "week_names.txt") Then 
+		
+		Else 
+			File.WriteMap(File.DirDefaultExternal, "week_names.txt", week_names)
+		End If
 	End If
 	
 	If FirstTime = False Then
@@ -67,6 +76,11 @@ Sub btn_save_Click
 	week1=edittext_secondweek.Text
 	selected_week=spinner_curweek.SelectedIndex
 	selected_week_s=spinner_curweek.SelectedItem
+	Main.curweek=spinner_curweek.SelectedIndex
+	week_names.Put("week0",week0)
+	week_names.Put("week1",week1)
+	week_names.Put("curweek",selected_week)
+	File.WriteMap(File.DirDefaultExternal, "week_names.txt", week_names)
 	Activity.Finish()
 End Sub
 Sub spinner_curweek_ItemClick (Position As Int, Value As Object)

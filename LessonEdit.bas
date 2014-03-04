@@ -33,6 +33,7 @@ Sub Globals
 	Dim les_array(6,3,6) As lesson
 	Private spinner_no As Spinner
 	Dim lessons_save As Map
+	Dim week_names As Map
 	Dim i As Byte
 	Dim j As Byte
 	Dim k As Byte
@@ -49,6 +50,7 @@ Sub Activity_Create(FirstTime As Boolean)
 			File.WriteMap(File.DirDefaultExternal, "lessons.txt", lessons_save)
 		End If
 	End If
+	week_names=File.ReadMap(File.DirDefaultExternal, "week_names.txt")
 	lessons_save=File.ReadMap2(File.DirDefaultExternal, "lessons.txt",lessons_save)
 	'Do not forget to load the layout file created with the visual designer. For example:
 	'Activity.LoadLayout("Layout1")
@@ -73,8 +75,8 @@ Sub Activity_Create(FirstTime As Boolean)
 	'-----------------------
 	
 	Сweekno_W(0)="-"
-	Сweekno_W(1)="Первая неделя"
-	Сweekno_W(2)="Вторая неделя"
+	Сweekno_W(1)=week_names.Get("week0")
+	Сweekno_W(2)=week_names.Get("week1")
 	
 	spinner_weekno.AddAll(Сweekno_W)
 	
