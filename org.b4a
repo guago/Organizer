@@ -58,6 +58,7 @@ Sub Globals
 	Dim j As Byte
 	Dim k As Byte
 	Dim ijk As String
+	Dim curlesson As Byte
 	Dim day_of_week As Byte
 	Private lst_main As ListView
 	Private btn_set_lesson As Button
@@ -73,7 +74,9 @@ Sub Activity_Create(FirstTime As Boolean)
 	week_names.Initialize
 	lessons_save.Initialize
 	
-	
+	If FirstTime Then
+		draw
+	End If
 	
 	DateTime.DateFormat="dd/MM/yyyy"
 	week=DateTime.GetDayofYear(DateTime.Now)/7
@@ -110,11 +113,11 @@ Sub Activity_Create(FirstTime As Boolean)
 	'-----------------------------------------------------------------------------------
 	map_to_arr(lessons_save)
 	
-	day_of_week=DateTime.GetDayOfWeek(DateTime.Now)-2
+	day_of_week=4'DateTime.GetDayOfWeek(DateTime.Now)-2
 	
 	title_curweek.Text=Settings.selected_week_s & Settings.selected_week & curweek_parity
 	
-	draw
+	
 	week_change
 End Sub
 
@@ -172,16 +175,38 @@ End Sub
 
 Sub draw
 	Dim weekno As Byte
+	Dim start As Long
+	Dim eend As Long
+	Dim now As Long
+	Dim Label1 As Label
+	Dim Label2 As Label
+	
+	Label1 = lst_main.TwoLinesLayout.Label
+	Label1.TextSize = 15
+	
+	Label2 = lst_main.TwoLinesLayout.SecondLabel
+	Label2.TextSize=14
+	
 	For i=0 To 5
 		If les(day_of_week,0,i).Сno="null" Then
 			weekno=Settings.selected_week+1
 		Else
 			weekno=0
 		End If
-		
 		If les(day_of_week,weekno,i).Сno="null" Then Exit
 		
-		lst_main.AddTwoLines(les(day_of_week,weekno,i).Сno & " - " & les(day_of_week,weekno,i).Сsubject & " (" & les(day_of_week,weekno,i).Сroom & ")",les(day_of_week,weekno,i).Сteacher & " ; " & les(day_of_week,weekno,i).Ctype_)
+		'start=DateTime.TimeParse((les(day_of_week,weekno,i).Сtimestart) & ":00")
+		'eend=DateTime.TimeParse((les(day_of_week,weekno,i).Сtimeend) & ":00")
+		'now=DateTime.TimeParse(DateTime.Time(DateTime.Now))
+		
+		'If now>start AND now<eend Then
+		'	curlesson=i
+		'End If
+		'Log(curlesson)
+		
+		lst_main.AddTwoLines(les(day_of_week,weekno,i).Сno & " - " & les(day_of_week,weekno,i).Сsubject,les(day_of_week,weekno,i).Сteacher & " ; " & les(day_of_week,weekno,i).Ctype_ & " (" & les(day_of_week,weekno,i).Сroom & ")" & " " & les(day_of_week,weekno,i).Сtimestart & "-" & les(day_of_week,weekno,i).Сtimeend)
 		'lst_main.AddTwoLines(les(day_of_week,curweek_parity,i).Сno & "-" & les(day_of_week,curweek_parity,i).Сsubject & "(" & les(day_of_week,curweek_parity,i).Сroom & ")" ,les(day_of_week,curweek_parity,i).Сteacher)
+		'lst_main.TwoLinesLayout.ItemHeight=75dip
+		
 	Next
 End Sub
